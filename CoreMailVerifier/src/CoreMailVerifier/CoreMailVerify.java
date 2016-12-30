@@ -1,4 +1,4 @@
-package CoreMailVerifier;
+package coreMailVerifier;
 
 public class CoreMailVerify {
 

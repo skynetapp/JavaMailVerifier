@@ -14,6 +14,11 @@ public class EmailVO {
 	private java.sql.Timestamp createdDate;
 	private String emailCollectionSource;
 	private String externalId;
+	
+	private String extractedEmail;
+	private String emailAlreadyVerified;
+	private String emailVerificationCompleted;
+	private int numEmailsProcessed;
 
 	
 	public void setAPIResponse(String apiResponse){
@@ -123,6 +128,52 @@ public class EmailVO {
 		return this.externalId;
 	}
 	
+	public void setExtractedEmail(String value){
+		
+		this.extractedEmail = value;
+		
+	}
 	
+	public String getExtractedEmail(){
+		
+		return this.extractedEmail;
+		
+	}
+	
+	public void setEmailAlreadyVerified(String value){
+		
+		this.emailAlreadyVerified = value;
+		
+	}
+	
+	public String getEmailAlreadyVerified(){
+		
+		return this.getEmailAlreadyVerified();
+		
+	}
+	
+	public void setEmailVerificationCompleted(String value){
+		
+		this.emailVerificationCompleted = value;
+		
+	}
+	
+	public String getEmailVerificationCompleted(){
+		
+		return this.emailVerificationCompleted;
+		
+	}
+	
+	public void setNumEmailProcessed(int value){
+		
+		this.numEmailsProcessed = value;
+		
+	}
+	
+	public int getNumEmailProcessed(){
+		
+		return this.numEmailsProcessed;
+	
+	}
 
 }

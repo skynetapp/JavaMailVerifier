@@ -21,8 +21,8 @@ public class CoreMailVerify {
 		EmailVO evo = new EmailVO(); 	
 		
 		try{
-				HttpClient httpclient = HttpClientBuilder.create().build();
-		    
+			
+			  HttpClient httpclient = HttpClientBuilder.create().build();
 		      String reqString = "https://apilayer.net/api/check?access_key=9628a27f5af5053c101877144296c68b&"+
 		    		  			 "email=" + emailToCheck + "&format=1";
 				

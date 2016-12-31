@@ -12,22 +12,41 @@ public class UpdateEmailVerifierDB {
 	   static final String USER = "remoteroot";
 	   static final String PASS = "lytepoleAnalytics";
 	   
+	   Connection conn = null;
+	   
+	   
+	   public Connection getDBConnection(){
+		   
+		   if (conn == null){
+			   
+			   //System.out.println("(UpdateEmailVerifierDB:getDBConnection)Connection do not exists - Creating Connection:"+DB_URL);
+			   try{
+				   Class.forName("com.mysql.jdbc.Driver");
+				   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			   }catch(Exception e){
+				   System.out.println("(UpdateEmailVerifierDB:getDBConnection)Unable to connect to Data Base:"+DB_URL);
+				   System.out.println("(UpdateEmailVerifierDB:getDBConnection)Error:"+e.getMessage());
+			   }
+		   }
+		   return conn;
+	   }
+	   
 	   
 	   private java.sql.Timestamp getCurrentTimeStamp() {
 				java.util.Date today = new java.util.Date();
 				return new java.sql.Timestamp(today.getTime());
-		}	
+	   }	
+	   
+	   
 	   
 	   public void insertEmailIntoDB(EmailVO evo){
 		   
-		   Connection conn = null;
+		   
 		   
 		   try{
-			      Class.forName("com.mysql.jdbc.Driver");
-			      System.out.println("Connecting to database bluemix@159.203.239.91");
-			      conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			      System.out.println("Connected to database bluemix@159.203.239.91");
-			      System.out.println("Inserting into Emails_List table:"+evo.getEmail());
+			      
+			   	  conn = this.getDBConnection();
+			      //System.out.println("(UpdateEmailVerifierDB:insertEmailIntoDB) Inserting into emails_List table:"+evo.getEmail());
 			      
 			      String insertQuery = "INSERT INTO emails_list"
 			      			+ "(id,smtp_check,score,mx_found, free, Name, Domain, api_response, email,is_valid,created_date,EmailCollectedDate,EmailCollectionSource,EmailVerifiedDate,ExternalId)"
@@ -56,22 +75,17 @@ public class UpdateEmailVerifierDB {
 				  ps.close();
 			      
 				  }catch(Exception e){
-					   System.out.println("Error in UpdateEmailVerifiedDB:"+e.getStackTrace());
-					   System.out.println("Error in UpdateEmailVerifiedDB:"+e.getMessage());
+					   System.out.println("(UpdateEmailVerifierDB:insertEmailIntoDB)Error Trace:"+e.getStackTrace());
+					   System.out.println("(UpdateEmailVerifierDB:insertEmailIntoDB)Error Message:"+e.getMessage());
 				  }
 	   }
 	   
 	   
 	   public int isEmailVerifiedAlreadyCheckDB(String checkEmailAddress) {   
-		   Connection conn = null;
+		   
 		   int resultSetCounter = 0;
 		   try{
-			   Class.forName("com.mysql.jdbc.Driver");
-			   System.out.println("Connecting to database...");
-			   conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-			   System.out.println("Creating SQL Statement in isEmailVerifiedAlreadyCheckDB Method.");
-			  
+			   conn = this.getDBConnection();   
 			   String sql;
 			   sql = "SELECT email FROM emails_list WHERE email = ?";
 			   
@@ -82,33 +96,27 @@ public class UpdateEmailVerifierDB {
 				  while(rs.next()){
 					  
 					  String email = rs.getString("email");
-					  System.out.println("Email Found in isEmailVerifiedAlreadyCheckDB:"+email);	
+					  //System.out.println("(UpdateEmailVerifierDB:isEmailVerifiedAlreadyCheckDB) Email Already Verified in emails_list:"+email);	
 					  resultSetCounter++;
 				  }
 				
 				  ps.close();
-				  conn.close();
+				  
 	
 		   }catch(Exception e){
-			   System.out.println("Error Querying:"+e.toString());
+			   System.out.println("(UpdateEmailVerifierDB:isEmailVerifiedAlreadyCheckDB)Error:"+e.toString());
 		   }
 		   		return resultSetCounter;
 	   }
 	   
 
 	   public void updateEmailVerifiedAlreadyCheckDB(String checkEmailAddress) {   
-		   Connection conn = null;
+		  
 		   try{
-			   Class.forName("com.mysql.jdbc.Driver");
-			   System.out.println("Connecting to database...");
-			   conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-			   System.out.println("Creating SQL Statement in isEmailVerifiedAlreadyCheckDB Method.");
-			  
-			   String sql;
-			   //sql = "SELECT email FROM emails_list WHERE email = ?";
-			   System.out.println("Updating the email Address:"+checkEmailAddress);
-			   sql = "update emails_list set EmailVerifiedDate = ? where email = ?";
+			   conn = this.getDBConnection();
+			   
+			   //System.out.println("(UpdateEmailVerifierDB:updateEmailVerifiedAlreadyCheckDB) Email Address Verified - Updating emails_list:"+checkEmailAddress);
+			   String sql = "update emails_list set EmailVerifiedDate = ? where email = ?";
 
 		   	   PreparedStatement ps = conn.prepareStatement(sql);
 			   ps.setTimestamp(1, this.getCurrentTimeStamp());
@@ -116,10 +124,10 @@ public class UpdateEmailVerifierDB {
 			 
 			   ps.executeUpdate();
 			   ps.close();
-			   conn.close();
+			   
 	
 		   }catch(Exception e){
-			   System.out.println("Error Updating the Email Address:"+e.toString());
+			   System.out.println("(UpdateEmailVerifierDB:updateEmailVerifiedAlreadyCheckDB)Error:"+e.toString());
 		   }
 		   		
 	   }
@@ -127,87 +135,93 @@ public class UpdateEmailVerifierDB {
 	   
 	   
 	   public void queryLyteEmailsDB() {
-		   Connection conn = null;
+		   
 		   Statement stmt = null;
 		   try{
 			   
-			   System.out.println("Entering method Query Lyte Emails DB.");
-			   Class.forName("com.mysql.jdbc.Driver");
-			   System.out.println("Connecting to database...");
-			   conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			   System.out.println("Connected to database...");
-
+			   conn = this.getDBConnection();
 			   stmt = conn.createStatement();
-			   String sql1;
-			   
-			   //sql1 = "select from1, idLyteEmails, CreatedDate, LyteEmailsName from LyteEmails";
-			   sql1 = "select from1, idLyteEmails, CreatedDate, LyteEmailsName from LyteEmails";
-			   sql1 = "SELECT email, EmailCollectionSource FROM bluemix.emails_list where is_valid is null and EmailCollectionSource = 'Scribd'";
-			   sql1 = "select email, EmailCollectionSource from emails_list where EmailVerifiedDate = '0000-00-00 00:00:00'";
-   
+			   String sql1 = "select email, EmailCollectionSource from emails_list where EmailVerifiedDate = '0000-00-00 00:00:00'";
 			   stmt.setFetchSize(2);
-			   ResultSet rs = stmt.executeQuery(sql1);
-			   System.out.println("Executing Result Set.");
-
 			   
+			   ResultSet rs = stmt.executeQuery(sql1);
 			   EmailVO evo = new EmailVO();
+			   
 			   CoreMailVerify cmf = new CoreMailVerify();
 			   int recordProcessed = 0;
-			   
-			   System.out.println("Total Count:" + rs.getFetchSize());
 			   
 			   int totalNumberofEmailsQueried = 0;
 			   int totalNumberofEmailsProcessed = 0;
 			   int totalNumberofEmailsSkipped = 0;
 			   
+			
+			   FileWrite logWriter = new FileWrite();
+			   
 			   while(rs.next()){
 		
-				   //Retrieve by column name
-				   //String email = rs.getString("From1");
 				   String email = rs.getString("email");
 				   Pattern pm = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
 				   Matcher m = pm.matcher(email);
 				   totalNumberofEmailsQueried++;
+				   
 				   if(m.find()){
-					   System.out.println("Extracted Email:"+m.group());
+					   System.out.print("(UpdateEmailVerifierDB:queryLyteEmailsDB) Extracted Email:"+ m.group());
+					   evo.setExtractedEmail(m.group());
 				   	   email = m.group();
 				   }
 				   else{
-					   System.out.println("No Email found in the String.");
+					   System.out.println("UpdateEmailVerifierDB:queryLyteEmailsDB) Extracted Email:NA");
 					   email = "NA";
+					   evo.setExtractedEmail("NA");
 				   }
 				   
+				   String EmailCollectionSource = rs.getString("EmailCollectionSource");
 				   if(this.isEmailVerifiedAlreadyCheckDB(email) > 0){
-					   String EmailCollectionSource = rs.getString("EmailCollectionSource");
-					   System.out.println("EmailCollectionSource:"+EmailCollectionSource);
-					   System.out.println("Email Already exists:"+email+": Skipping verification.");
+					   
+					   System.out.print(" EmailCollectionSource:"+EmailCollectionSource);
+					   System.out.print(" Email Exists ");
+					   
+					   evo.setEmailAlreadyVerified("True");
+					   evo.setLyteEmailCollectionSource("emails_list");
+					   evo.setEmailVerificationCompleted("False");
+					   evo.setFromEmailCollectionSource(EmailCollectionSource);
+					   
+					   
 					   this.updateEmailVerifiedAlreadyCheckDB(email);
 					   totalNumberofEmailsSkipped++;
 				   }else{
 					   
-					   System.out.println("Email is not verified:"+email+": Sending for verification.");
+					   System.out.print(" Email Not Exists ");
 					   evo = cmf.callEmailVerifier(email);
-					   //evo.setId(rs.getInt("idLyteEmails"));
 					   evo.setExternalId(rs.getString("email"));
-					   //evo.setLyteEmailsCreatedDate(rs.getTimestamp("CreatedDate"));
-					   //evo.setLyteEmailCollectionSource(rs.getString("LyteEmailsName"));
-					   evo.setLyteEmailCollectionSource("emails_list");
-					   //this.insertEmailIntoDB(evo);
 					   this.updateEmailVerifiedAlreadyCheckDB(email);
-					   System.out.println("Email verification completed:"+email);
+					   System.out.print(" Email verification completed ");
+					   
 					   totalNumberofEmailsProcessed++;
+					   
+					   evo.setEmailAlreadyVerified("False");
+					   evo.setLyteEmailCollectionSource("emails_list");
+					   evo.setEmailVerificationCompleted("True");
+					   evo.setFromEmailCollectionSource(EmailCollectionSource);
+					   
+					   
 				   }
+				   
+				   logWriter.writeFile(evo);
 				   System.out.println("Records Processed:"+recordProcessed++);
 			
 			   }
 			   
+			   System.out.println("************Completed processing all emails**************");
 			   System.out.println("Total Number of Emails Queried:"+totalNumberofEmailsQueried);
 			   System.out.println("Total Number of Emails Processed:"+totalNumberofEmailsProcessed);
 			   System.out.println("Total Number of Emails Skipped:"+totalNumberofEmailsSkipped);
+			   System.out.println("************End Processing All Emails********************");
+			   
 			   
 			   rs.close();
 			   stmt.close();
-			   conn.close();
+			   //conn.close();
 	  
 		   }catch(Exception e){
 			   System.out.println("Error Querying LyteEmails Table."+e.toString());

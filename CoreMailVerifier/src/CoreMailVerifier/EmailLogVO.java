@@ -2,22 +2,22 @@ package CoreMailVerifier;
 
 public class EmailLogVO {
 
-	private String emailCollectionSource;
+	private String emailFromCollectionSource;
 	private String extractedEmail;
 	private String emailAlreadyVerified;
 	private String emailVerificationCompleted;
 	private int numEmailsProcessed;
 	
 	
-	public void setEmailCollectionSource(String value){
+	public void setFromEmailCollectionSource(String value){
 		
-		this.emailCollectionSource = value; 
+		this.emailFromCollectionSource = value; 
 		
 	}
 	
-	public String getEmailCollectionSource(){
+	public String getFromEmailCollectionSource(){
 		
-		return this.emailCollectionSource; 
+		return this.emailFromCollectionSource; 
 	
 	}
 	

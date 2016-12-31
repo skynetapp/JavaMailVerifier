@@ -19,6 +19,7 @@ public class EmailVO {
 	private String emailAlreadyVerified;
 	private String emailVerificationCompleted;
 	private int numEmailsProcessed;
+	private String emailFromCollectionSource;
 
 	
 	public void setAPIResponse(String apiResponse){
@@ -116,6 +117,11 @@ public class EmailVO {
 		this.emailCollectionSource = emailCollectionSource;
 	}
 	
+	public String getLyteEmailCollectionSource(){
+		return this.emailCollectionSource;
+	}
+	
+	
 	public String getEmailCollectionSource(){
 		return this.emailCollectionSource;
 	}
@@ -148,7 +154,7 @@ public class EmailVO {
 	
 	public String getEmailAlreadyVerified(){
 		
-		return this.getEmailAlreadyVerified();
+		return this.emailAlreadyVerified;
 		
 	}
 	
@@ -173,6 +179,18 @@ public class EmailVO {
 	public int getNumEmailProcessed(){
 		
 		return this.numEmailsProcessed;
+	
+	}
+	
+	public void setFromEmailCollectionSource(String value){
+		
+		this.emailFromCollectionSource = value; 
+		
+	}
+	
+	public String getFromEmailCollectionSource(){
+		
+		return this.emailFromCollectionSource; 
 	
 	}
 

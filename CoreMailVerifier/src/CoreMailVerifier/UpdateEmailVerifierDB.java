@@ -139,7 +139,7 @@ public class UpdateEmailVerifierDB {
 		   Statement stmt = null;
 		   try{
 			   
-			   //Testing Git Comments.
+			   //Testing Git Comments. More testing
 			   conn = this.getDBConnection();
 			   stmt = conn.createStatement();
 			   String sql1 = "select email, EmailCollectionSource from emails_list where EmailVerifiedDate = '0000-00-00 00:00:00'";

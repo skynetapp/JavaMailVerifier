@@ -139,6 +139,7 @@ public class UpdateEmailVerifierDB {
 		   Statement stmt = null;
 		   try{
 			   
+			   //Testing Git Comments.
 			   conn = this.getDBConnection();
 			   stmt = conn.createStatement();
 			   String sql1 = "select email, EmailCollectionSource from emails_list where EmailVerifiedDate = '0000-00-00 00:00:00'";
@@ -216,7 +217,7 @@ public class UpdateEmailVerifierDB {
 			   System.out.println("Total Number of Emails Queried:"+totalNumberofEmailsQueried);
 			   System.out.println("Total Number of Emails Processed:"+totalNumberofEmailsProcessed);
 			   System.out.println("Total Number of Emails Skipped:"+totalNumberofEmailsSkipped);
-			   System.out.println("************End Processing All Emails********************");
+			   System.out.println("************End processing all Emails********************");
 			   
 			   
 			   rs.close();

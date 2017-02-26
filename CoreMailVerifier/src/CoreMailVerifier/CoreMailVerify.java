@@ -10,6 +10,7 @@ import com.eclipsesource.json.JsonObject;
 
 import java.io.*;
 
+//Testing MacBook Pro - Git Installation.
 
 public class CoreMailVerify {
 

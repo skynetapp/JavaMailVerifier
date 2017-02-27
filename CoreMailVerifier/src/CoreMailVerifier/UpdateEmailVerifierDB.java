@@ -122,7 +122,7 @@ public class UpdateEmailVerifierDB {
 	   }
 	   
 	   /*
-	    * This function takes an email address as input and checks if the email already exists in the Database.
+	    * This fnction takes an email address as input and checks if the email already exists in the Database.
 	    * 
 	    * @param emailAddress The email address the needs to be checked in the database
 	    * @returns resultSetCounter The number of times the email is present in the database.

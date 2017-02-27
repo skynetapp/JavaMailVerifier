@@ -1,5 +1,14 @@
 package CoreMailVerifier;
 
+/*
+ * Created By: Kesavan Jay
+ * Purpose: This is primary Email Value Object. This Object is used to return results
+ * from the REST API call and also to write Email Object to database along with various
+ * other places.
+ * 
+ */
+
+
 public class EmailVO {
 	private int id;
 	private String email;

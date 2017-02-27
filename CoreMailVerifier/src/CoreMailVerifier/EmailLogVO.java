@@ -1,5 +1,12 @@
 package CoreMailVerifier;
 
+/*
+ * Created By: Kesavan Jay
+ * Purpose: This is a simple value Object for Email Logging.
+ *
+ */
+
+
 public class EmailLogVO {
 
 	private String emailFromCollectionSource;

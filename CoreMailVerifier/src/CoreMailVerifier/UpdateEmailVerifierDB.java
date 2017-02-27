@@ -3,8 +3,21 @@ import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+ * Created By: Kesavan Jay
+ * Purpose: This class provides a set of functions to update the EmailVerifierDB. The email
+ * verifier DB is the master system of records which stores all validated email.
+ *
+ */
+
+
+
+
 public class UpdateEmailVerifierDB {
-	 // JDBC driver name and database URL
+	
+	   
+	   //Dev Notes: These credentials have to moved to a config file in the future.
+	   // JDBC driver name and database URL
 	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	   static final String DB_URL = "jdbc:mysql://159.203.239.91/bluemix";
 
@@ -14,6 +27,14 @@ public class UpdateEmailVerifierDB {
 	   
 	   Connection conn = null;
 	   
+	   /*
+	    * Function: getDBConnection()
+	    * This function connects to the DataBase and returns a connection object.
+	    * 
+	    * @param N/A
+	    * @returns Connection
+	    * 
+	    */
 	   
 	   public Connection getDBConnection(){
 		   
@@ -31,6 +52,15 @@ public class UpdateEmailVerifierDB {
 		   return conn;
 	   }
 	   
+	   /*
+	    * This function is an utility to return the current System timestamp. 
+	    * Dev Notes: This utility should be moved to a Utility class in the future.
+	    * 
+	    * @param N/A
+	    * @returns Timestamp
+	    * 
+	    */
+	   
 	   
 	   private java.sql.Timestamp getCurrentTimeStamp() {
 				java.util.Date today = new java.util.Date();
@@ -38,6 +68,17 @@ public class UpdateEmailVerifierDB {
 	   }	
 	   
 	   
+	   /*
+	    * This function creates a new record in the EmailVerifier DB.  
+	    * This function takes a Email Value Object (EmailVO.java).
+	    * Dev Notes: This function should return a success or failure after insertion for good error checking.
+	    * This function should also throw the error instead of catching to make this function global and to
+	    * make sure it can be used everywhere.
+	    * 
+	    * @param EmailVO 
+	    * @returns N/A
+	    * 
+	    */
 	   
 	   public void insertEmailIntoDB(EmailVO evo){
 		   
@@ -80,6 +121,14 @@ public class UpdateEmailVerifierDB {
 				  }
 	   }
 	   
+	   /*
+	    * This function takes an email address as input and checks if the email already exists in the Database.
+	    * 
+	    * @param emailAddress The email address the needs to be checked in the database
+	    * @returns resultSetCounter The number of times the email is present in the database.
+	    * 
+	    */
+	   
 	   
 	   public int isEmailVerifiedAlreadyCheckDB(String checkEmailAddress) {   
 		   
@@ -108,6 +157,18 @@ public class UpdateEmailVerifierDB {
 		   }
 		   		return resultSetCounter;
 	   }
+	   
+	   /*
+	    * This function takes an email address and updates the Email Verified Date of the record with the
+	    * system timestamp. This is essentially done to assign a date to the email address and check when was the last time this email was
+	    * validated.
+	    * 
+	    * Dev Notes: This function return a success or failure after updating timestamp.
+	    * 
+	    * @param emailAddress The email address whose date needs to be updated.
+	    * @returns N/A 
+	    * 
+	    */
 	   
 
 	   public void updateEmailVerifiedAlreadyCheckDB(String checkEmailAddress) {   

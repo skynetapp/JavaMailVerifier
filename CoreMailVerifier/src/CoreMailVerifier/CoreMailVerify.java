@@ -10,10 +10,32 @@ import com.eclipsesource.json.JsonObject;
 
 import java.io.*;
 
-//Testing MacBook Pro - Git Installation.
+
+/*
+ * Created By: Kesavan Jay
+ * Purpose: This function calls the API Layer Verification REST API and returns 
+ * the results.
+ *
+ */
+
+
 
 public class CoreMailVerify {
 
+	   /*
+	    * This function called the API Layer Rest API with an Email Address
+	    * and returns the full set of results. The full set of request and response
+	    * can be found at https://mailboxlayer.com/documentation
+	    * 
+	    * Devnotes: This should return a success of failure if the rest APILayer.net is not 
+	    * available
+	    * 
+	    * @param EmailAddress The email address that needs to be send to the REST API.
+	    * @returns EmailVo A value object with the results from REST API Call.
+	    * 
+	    */
+	   
+	
 	
 	public EmailVO callEmailVerifier(String emailToCheck){
 		

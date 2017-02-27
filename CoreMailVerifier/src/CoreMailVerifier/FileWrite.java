@@ -3,10 +3,31 @@ package CoreMailVerifier;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
+/*
+ * Created By: Kesavan Jay
+ * Purpose: This class is a simple file logger to write Email Value Object to file.
+ *
+ */
+
+
 
 public class FileWrite {
 	
 	private String strLine;
+	
+	
+	   /*
+	    * This function is a simple logger to write the Email Value Object to file.
+	    * This is used to write the result of REST API call to file for debugging.
+	    * 
+	    * Devnotes: This should return a success of failure if unable to open the file for
+	    * writing.
+	    * 
+	    * @param EmailVO An Email Value Object derived from EmailVO.java.
+	    * @returns N/A
+	    * 
+	    */
+	
 	
     public void writeFile(EmailVO evo){
     	try{

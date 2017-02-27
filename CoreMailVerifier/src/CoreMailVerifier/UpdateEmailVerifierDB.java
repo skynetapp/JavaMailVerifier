@@ -122,7 +122,7 @@ public class UpdateEmailVerifierDB {
 	   }
 	   
 	   /*
-	    * This fnction takes an email address as input and checks if the email already exists in the Database.
+	    * This function takes an email address as input and checks if the email already exists in the Database.
 	    * 
 	    * @param emailAddress The email address the needs to be checked in the database
 	    * @returns resultSetCounter The number of times the email is present in the database.
@@ -193,7 +193,21 @@ public class UpdateEmailVerifierDB {
 		   		
 	   }
 	   
-	   
+	   /*
+	    * This function is the master driver function. This function works as below.
+	    * a) Loops through the entire set of records in the DB where the email verified date is not set.
+	    * b) Checks if the email is already checked. If the email is already checked updates the Email Verified
+	    * timestamp in the database to the current timestamp. If the email is not verified a Web Service
+	    * call is made to the EmailVerifier API and the EmailVerifierDB is updated with all the variables.
+	    * 
+	    * Specifically, this function call is made to call  the email verifier: evo = cmf.callEmailVerifier(email);
+	    * 
+	    * Dev Notes: This function return a success or failure after updating timestamp.
+	    * 
+	    * @param N/A
+	    * @returns N/A 
+	    * 
+	    */
 	   
 	   public void queryLyteEmailsDB() {
 		   
